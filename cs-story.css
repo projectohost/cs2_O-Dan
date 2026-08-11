@@ -1,0 +1,148 @@
+/* ==========================================
+   ОБЩИЕ НАСТРОЙКИ СТРАНИЦЫ
+   ========================================== */
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: #000000;
+  overflow-x: hidden;
+}
+
+/* Слой для фоновой картинки (появится ТОЛЬКО после окончания интро) */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: url('images/photobackground.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  z-index: -2;
+  opacity: 0; /* Изначально скрыт */
+}
+
+/* Слой для темноты по углам (виньетка) */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.9);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0; /* Изначально скрыт */
+}
+
+/* СВЯЗКА С JS: Когда интро закончится, JavaScript добавит этот класс, 
+   и фоновая картинка плавно проявится за 2 секунды */
+body.intro-done::before,
+body.intro-done::after {
+  opacity: 1;
+  transition: opacity 2s ease-in-out;
+}
+
+/* ==========================================
+   ЗАСТАВКА В СТИЛЕ VALVE (INTRO)
+   ========================================== */
+/* Контейнер заставки остается черным */
+.valve-intro {
+  position: fixed;
+  top: 0; 
+  left: 0;
+  width: 100vw;       
+  height: 100vh;      
+  background-color: #000000;
+  
+  /* ИСПРАВЛЕНО: Изменено на flex для идеального центрирования на любом экране */
+  display: flex;
+  align-items: center;      
+  justify-content: center;     
+  
+  z-index: 9999;
+  
+  /* ИСПРАВЛЕНО: Автоматическое затухание убрано. Теперь плавно растворяется 
+     по команде из JS, когда тот меняет opacity */
+  transition: opacity 1s ease, visibility 1s ease;
+}
+
+/* Стилизация прямоугольника и текста Valve */
+.valve-logo {
+  background-color: #f74843; 
+  color: #000000; /* ИСПРАВЛЕНО: Сделали буквы белыми для точной копии нового логотипа */
+  
+  font-size: 55px;
+  font-weight: 900;
+  text-transform: uppercase;
+  
+  padding: 12px 25px 14px 28px; /* Скорректированы отступы, чтобы рамка была ровной */
+  
+  /* ФИКСАЦИЯ БУКВ: Скрепляет их вместе внутри красной рамки */
+  display: inline-flex;
+  align-items: center; 
+  letter-spacing: -2px; /* Прижали буквы плотнее друг к другу */
+  white-space: nowrap;  /* Запрещает буквам распадаться и переноситься */
+  
+  opacity: 0; /* Изначально скрыт, пока JS не поймает действие пользователя */
+}
+
+/* СВЯЗКА С JS: Как только пользователь сделает действие, JS добавит 
+   класс .play-animation и логотип плавно появится за 2 секунды */
+.valve-intro.play-animation .valve-logo {
+  animation: fadeInLogo 2s ease-out forwards;
+}
+
+/* Главная фишка: уменьшенная и приподнятая буква E */
+.valve-logo .valve-e {
+  font-size: 34px;          
+  margin-left: 4px;         
+  transform: translateY(-7px); /* Подняли строго по центру строки */
+}
+
+/* ==========================================
+   АНИМАЦИИ
+   ========================================== */
+
+/* Как логотип Valve появляется в начале */
+@keyframes fadeInLogo {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+
+/* ==========================================
+   СТИЛИ ДЛЯ ВАШЕГО КОНТЕНТА (ТЕКСТ И КНОПКА)
+   ========================================== */
+
+/* Контент сайта изначально скрыт и плавно проявляется вместе с фоном */
+h1, button {
+  opacity: 0;
+  animation: fadeInImage 2s ease-in-out 3s forwards;
+}
+
+h1 {
+  text-align: center;
+  color: #ffffff;
+  margin-top: 50px;
+}
+
+button {
+  color:#ffffff;
+  background-color: transparent;
+  font-family: 'Arial Black', sans-serif;
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.1s ease;
+}
+
+/* Наведение мыши (светлее) */
+button:hover {
+  color: #757575;
+}
+
+/* Нажатие (клик) */
+button:active {
+  color:#ffa837
+}
+
