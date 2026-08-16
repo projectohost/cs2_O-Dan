@@ -1,13 +1,15 @@
 window.addEventListener('DOMContentLoaded', () => {
-  const sound = document.getElementById('intro-sound');
+  const button = document.getElementById('myButton');
+  const sound = document.getElementById('clickSound');
+  const sounds = document.getElementById('intro-sound');
   const logo = document.querySelector('.valve-logo');
   const h1 = document.querySelector('h1');
   const p = document.querySelector('p');
   const buttons = document.querySelectorAll('button');
 
   // Указываем точный путь к звуку
-  if (sound) {
-    sound.src = 'sounds/valve-intro.mp3'; 
+  if (sounds) {
+    sounds.src = 'sounds/valve-intro.mp3'; 
   }
 
   // 1. Создаем черный экран заставки прямо через JS
@@ -65,14 +67,14 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     
     // Мгновенный запуск звука
-    if (sound) {
-      sound.muted = false;
-      sound.volume = 1.0;
+    if (sounds) {
+      sounds.muted = false;
+      sounds.volume = 1.0;
       
-      sound.play().catch(err => {
+      sounds.play().catch(err => {
         console.log("MP3 не подошел, пробуем WAV...");
-        sound.src = 'sounds/valve-intro.wav';
-        sound.play().catch(e => console.log("Файл не найден"));
+        sounds.src = 'sounds/valve-intro.wav';
+        sounds.play().catch(e => console.log("Файл не найден"));
       });
 
       // Плавное затухание звука на 8.5 секунде
@@ -126,4 +128,10 @@ window.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('touchstart', runIntro, { once: true });
   window.addEventListener('click', runIntro, { once: true });
   window.addEventListener('keydown', runIntro, { once: true });
+});
+  button.addEventListener('click', () => {
+  sound.currentTime = 0; // Возвращает звук в начало, если кликают быстро
+  sound.play().catch(error => {
+    console.log("Браузер заблокировал автовоспроизведение:", error);
+  });
 });
