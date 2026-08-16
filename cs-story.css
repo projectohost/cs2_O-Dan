@@ -1,12 +1,16 @@
+/* Подключение пиксельного шрифта, похожего на CS 1.6 */
+@import url('https://googleapis.com');
+
 body {
-  font-family: ArialPixel, system-ui, sans-serif;
+  font-family: 'Courier Prime', Courier, monospace, sans-serif; /* Аутентичный моноширинный стиль */
   margin: 0;
   min-height: 100vh;
-  background-color: #000000;
+  background-color: #4a5141; /* Оригинальный фоновый цвет CS 1.6, если картинка не загрузится */
   overflow-x: hidden;
+  color: #c4c9be; /* Стандартный светло-серый текст из игры */
 }
 
-/* Слой для фоновой картинки (появится ТОЛЬКО после окончания интро) */
+/* Слой для фоновой картинки */
 body::before {
   content: "";
   position: fixed;
@@ -17,22 +21,21 @@ body::before {
   background-position: center;
   background-attachment: fixed;
   z-index: -2;
-  opacity: 0; /* Изначально скрыт */
+  opacity: 0;
 }
 
-/* Слой для темноты по углам (виньетка) */
+/* Слой для темноты по углам (виньетка в стиле CS 1.6) */
 body::after {
   content: "";
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
-  box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.9);
+  box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.85); /* Чуть более выраженная тень */
   z-index: -1;
   pointer-events: none;
-  opacity: 0; /* Изначально скрыт */
+  opacity: 0;
 }
 
-/* СВЯЗКА С JS: Когда интро закончится, JavaScript добавит этот класс, 
-   и фоновая картинка плавно проявится за 2 секунды */
+/* Активация фона после интро */
 body.intro-done::before,
 body.intro-done::after {
   opacity: 1;
@@ -42,96 +45,134 @@ body.intro-done::after {
 /* ==========================================
    ЗАСТАВКА В СТИЛЕ VALVE (INTRO)
    ========================================== */
-/* Контейнер заставки остается черным */
 .valve-intro {
   position: fixed;
-  top: 0; 
-  left: 0;
-  width: 100vw;       
-  height: 100vh;      
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;      
   background-color: #000000;
-  
-  /* ИСПРАВЛЕНО: Изменено на flex для идеального центрирования на любом экране */
   display: flex;
   align-items: center;      
   justify-content: center;     
-  
   z-index: 9999;
-  
-  /* ИСПРАВЛЕНО: Автоматическое затухание убрано. Теперь плавно растворяется 
-     по команде из JS, когда тот меняет opacity */
   transition: opacity 1s ease, visibility 1s ease;
 }
 
-/* Стилизация прямоугольника и текста Valve */
+/* Оригинальный золотисто-оранжевый логотип Valve старой эпохи */
 .valve-logo {
-  background-color: #f74843; 
-  color: #000000; /* ИСПРАВЛЕНО: Сделали буквы белыми для точной копии нового логотипа */
-  
+  background-color: #e5a324; /* Фирменный ретро-золотой цвет Valve */
+  color: #000000; 
+  font-family: Arial, sans-serif; /* Для логотипа нужен строгий гротеск */
   font-size: 55px;
   font-weight: 900;
   text-transform: uppercase;
-  
-  padding: 12px 25px 14px 28px; /* Скорректированы отступы, чтобы рамка была ровной */
-  
-  /* ФИКСАЦИЯ БУКВ: Скрепляет их вместе внутри красной рамки */
+  padding: 10px 25px 12px 25px; 
   display: inline-flex;
   align-items: center; 
-  letter-spacing: -2px; /* Прижали буквы плотнее друг к другу */
-  white-space: nowrap;  /* Запрещает буквам распадаться и переноситься */
-  
-  opacity: 0; /* Изначально скрыт, пока JS не поймает действие пользователя */
+  letter-spacing: -3px; 
+  white-space: nowrap;  
+  opacity: 0; 
 }
 
-/* СВЯЗКА С JS: Как только пользователь сделает действие, JS добавит 
-   класс .play-animation и логотип плавно появится за 2 секунды */
 .valve-intro.play-animation .valve-logo {
   animation: fadeInLogo 2s ease-out forwards;
 }
 
-/* Главная фишка: уменьшенная и приподнятая буква E */
 .valve-logo .valve-e {
-  font-size: 34px;          
-  margin-left: 4px;         
-  transform: translateY(-7px); /* Подняли строго по центру строки */
+  font-size: 36px;          
+  margin-left: 2px;         
+  transform: translateY(-6px); 
 }
 
-/* ==========================================
-   АНИМАЦИИ
-   ========================================== */
-
-/* Как логотип Valve появляется в начале */
 @keyframes fadeInLogo {
-  from { opacity: 0; transform: scale(0.9); }
+  from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
 }
 
-
 /* ==========================================
-   СТИЛИ ДЛЯ ВАШЕГО КОНТЕНТА (ТЕКСТ И КНОПКА)
+   СТИЛИ ДЛЯ КОНТЕНТА (ИНТЕРФЕЙС CS 1.6)
    ========================================== */
 
-/* Контент сайта изначально скрыт и плавно проявляется вместе с фоном */
-h1, button {
+/* Плавное проявление контента */
+h1, p1, p2, .image1, .image2, button {
   opacity: 0;
-  animation: fadeInImage 2s ease-in-out 3s forwards;
+  animation: fadeInContent 2s ease-in-out 3s forwards;
 }
 
+@keyframes fadeInContent {
+  to { opacity: 1; }
+}
+
+/* Главный заголовок (как название игры в меню) */
 h1 {
   text-align: center;
-  color: #ffffff;
-  margin-top: 50px;
+  color: #e5a324; /* Золотой цвет активных пунктов меню */
+  font-size: 48px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.7);
+  margin-top: 40px;
 }
 
+h2 {
+  text-align: center;
+  color: #6d6d6d; /* Золотой цвет активных пунктов меню */
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.7);
+  margin-top: 40px;
+}
+
+/* Обычный текст (описания) */
+p1, p2, p3 {
+  display: block; /* Чтобы вели себя как текстовые блоки */
+  color: #c4c9be; /* Фирменный серо-зеленый оттенок текста */
+  max-width: 800px;
+  font-size: 25px;
+  line-height: 1.5;
+  margin: 15px auto;
+  text-align: left;
+  padding: 0 20px;
+}
+
+/* Скриншоты / Изображения (Оформление в виде окон интерфейса) */
+.image1, .image2, .image3 {
+  width: 25%;
+  height: auto;
+  border: 2px solid #5a6250; /* Граница цвета VGUI-окон */
+  box-shadow: 2px 2px 0px #000000; /* Ретро-тень */
+  border-radius: 0px !important; /* В CS 1.6 никаких скруглений */
+  background-color: #383d32;
+  box-sizing: border-box;
+}
+
+.image1 { float: left; margin-right: 20px; }
+.image2 { float: right; margin-left: 20px; }
+.image3 { float: left; margin-right: 20px; }
+
+/* КНОПКИ (Классические пункты меню CS 1.6) */
 button {
-    font-size: 26px;
-    background-color: transparent;
-    color: #ffffff;
-    transition: color 0.5s ease;
-    border-color: transparent
+  font-family: 'Courier Prime', Courier, monospace, sans-serif;
+  font-size: 22px;
+  text-transform: uppercase;
+  background-color: transparent;
+  color: #aeaeae; /* Цвет неактивного пункта меню */
+  border: none;
+  cursor: pointer;
+  padding: 8px 20px;
+  margin: 10px auto;
+  text-align: center;
+  transition: color 0.1s ease, transform 0.1s ease;
 }
 
+/* Наведение на кнопку (Hover эффект как в игре) */
+button:hover {
+  color: #ffffff; /* Текст становится белым */
+  text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.6); /* Легкое свечение */
+}
+
+/* Клик по кнопке */
 button:active {
-    transition: color 0.5s ease;
-    color: #626262;
+  color: #e5a324; /* Становится золотым при нажатии */
+  transform: scale(0.98); /* Легкий физический отклик */
 }

@@ -1,11 +1,11 @@
 window.addEventListener('DOMContentLoaded', () => {
   const button = document.getElementById('myButton');
-  const sound = document.getElementById('clickSound');
-  const sounds = document.getElementById('intro-sound');
+  const clickSound = document.getElementById('ui_clickrelease'); // ИСПРАВЛЕНО: Переименовано во избежание дублирования
+  const sounds = document.getElementById('valve-intro');
   const logo = document.querySelector('.valve-logo');
   const h1 = document.querySelector('h1');
   const p = document.querySelector('p');
-  const buttons = document.querySelectorAll('button');
+  const buttons = document.querySelectorAll('button'); // Теперь это объявление работает корректно
 
   // Указываем точный путь к звуку
   if (sounds) {
@@ -77,22 +77,19 @@ window.addEventListener('DOMContentLoaded', () => {
         sounds.play().catch(e => console.log("Файл не найден"));
       });
 
-      // Плавное затухание звука на 8.5 секунде
+      // ИСПРАВЛЕНО: Плавное затухание звука интро (sounds вместо sound) на 6.5 секунде
       setTimeout(() => {
         let fadeOutInterval = setInterval(() => {
-          if (sound.volume > 0.1) {
-            sound.volume -= 0.1;
+          if (sounds.volume > 0.1) {
+            sounds.volume -= 0.1;
           } else {
-            sound.pause();
+            sounds.pause();
             clearInterval(fadeOutInterval);
           }
         }, 100);
-      }, 8500);
+      }, 8000); 
     }
-
-    // Через 10 секунд плавно открываем сайт
     setTimeout(() => {
-      // ИСПРАВЛЕНО: Принудительно устанавливаем картинку на фон body прямо из JS, чтобы обойти баг file:///
       document.body.style.backgroundImage = "url('images/photobackground.jpg')";
       document.body.style.backgroundSize = "cover";
       document.body.style.backgroundRepeat = "no-repeat";
@@ -109,10 +106,8 @@ window.addEventListener('DOMContentLoaded', () => {
       if (h1) { h1.style.opacity = '1'; h1.style.transition = 'opacity 2s ease'; }
       if (p) { p.style.opacity = '1'; p.style.transition = 'opacity 2s ease'; }
       buttons.forEach(btn => { btn.style.opacity = '1'; btn.style.transition = 'opacity 2s ease'; });
-      
-      // Добавляем класс для CSS, если он там используется
       document.body.classList.add('intro-done');
-    }, 10000);
+    }, 8000);
 
     // Снимаем слежку за действиями
     window.removeEventListener('mousemove', runIntro);
@@ -128,10 +123,14 @@ window.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('touchstart', runIntro, { once: true });
   window.addEventListener('click', runIntro, { once: true });
   window.addEventListener('keydown', runIntro, { once: true });
-});
-  button.addEventListener('click', () => {
-  sound.currentTime = 0; // Возвращает звук в начало, если кликают быстро
-  sound.play().catch(error => {
-    console.log("Браузер заблокировал автовоспроизведение:", error);
-  });
+
+  // ИСПРАВЛЕНО: Теперь используется верное имя переменной clickSound
+  if (button && clickSound) {
+    button.addEventListener('click', () => {
+      clickSound.currentTime = 0; // Возвращает звук в начало, если кликают быстро
+      clickSound.play().catch(error => {
+        console.log("Браузер заблокировал автовоспроизведение:", error);
+      });
+    });
+  }
 });
