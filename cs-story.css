@@ -1,21 +1,17 @@
-/* Подключение пиксельного шрифта, похожего на CS 1.6 */
-@import url('https://googleapis.com');
-
 body {
-  font-family: 'Courier Prime', Courier, monospace, sans-serif; /* Аутентичный моноширинный стиль */
+  font-family: 'Courier Prime', Courier, monospace, sans-serif;
   margin: 0;
   min-height: 100vh;
-  background-color: #4a5141; /* Оригинальный фоновый цвет CS 1.6, если картинка не загрузится */
+  background-color: #4a5141;
   overflow-x: hidden;
-  color: #c4c9be; /* Стандартный светло-серый текст из игры */
+  color: #c4c9be;
 }
 
-/* Слой для фоновой картинки */
 body::before {
   content: "";
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
-  background-image: url('images/photobackground.jpg');
+  background-image: url('images/photobackground1.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -24,27 +20,27 @@ body::before {
   opacity: 0;
 }
 
-/* Слой для темноты по углам (виньетка в стиле CS 1.6) */
 body::after {
   content: "";
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
-  box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.85); /* Чуть более выраженная тень */
+  box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.85);
   z-index: -1;
   pointer-events: none;
   opacity: 0;
 }
 
-/* Активация фона после интро */
 body.intro-done::before,
 body.intro-done::after {
   opacity: 1;
   transition: opacity 2s ease-in-out;
 }
 
-/* ==========================================
-   ЗАСТАВКА В СТИЛЕ VALVE (INTRO)
-   ========================================== */
+header {
+  background-color: #4a5141;
+  border: 1.5px solid #383d32;
+}
+
 .valve-intro {
   position: fixed;
   top: 0; left: 0;
@@ -57,11 +53,10 @@ body.intro-done::after {
   transition: opacity 1s ease, visibility 1s ease;
 }
 
-/* Оригинальный золотисто-оранжевый логотип Valve старой эпохи */
 .valve-logo {
-  background-color: #e5a324; /* Фирменный ретро-золотой цвет Valve */
+  background-color: #e5a324;
   color: #000000; 
-  font-family: Arial, sans-serif; /* Для логотипа нужен строгий гротеск */
+  font-family: Arial, sans-serif;
   font-size: 55px;
   font-weight: 900;
   text-transform: uppercase;
@@ -88,11 +83,6 @@ body.intro-done::after {
   to { opacity: 1; transform: scale(1); }
 }
 
-/* ==========================================
-   СТИЛИ ДЛЯ КОНТЕНТА (ИНТЕРФЕЙС CS 1.6)
-   ========================================== */
-
-/* Плавное проявление контента */
 h1, p1, p2, .image1, .image2, button {
   opacity: 0;
   animation: fadeInContent 2s ease-in-out 3s forwards;
@@ -102,10 +92,9 @@ h1, p1, p2, .image1, .image2, button {
   to { opacity: 1; }
 }
 
-/* Главный заголовок (как название игры в меню) */
 h1 {
   text-align: center;
-  color: #e5a324; /* Золотой цвет активных пунктов меню */
+  color: #e5a324;
   font-size: 48px;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -115,7 +104,7 @@ h1 {
 
 h2 {
   text-align: center;
-  color: #6d6d6d; /* Золотой цвет активных пунктов меню */
+  color: #6d6d6d;
   font-size: 18px;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -123,10 +112,9 @@ h2 {
   margin-top: 40px;
 }
 
-/* Обычный текст (описания) */
 p1, p2, p3 {
-  display: block; /* Чтобы вели себя как текстовые блоки */
-  color: #c4c9be; /* Фирменный серо-зеленый оттенок текста */
+  display: block;
+  color: #c4c9be;
   max-width: 800px;
   font-size: 25px;
   line-height: 1.5;
@@ -135,13 +123,12 @@ p1, p2, p3 {
   padding: 0 20px;
 }
 
-/* Скриншоты / Изображения (Оформление в виде окон интерфейса) */
-.image1, .image2, .image3 {
+.image1, .image2, .image3, .Cr1, .Cr2 {
   width: 25%;
   height: auto;
-  border: 2px solid #5a6250; /* Граница цвета VGUI-окон */
-  box-shadow: 2px 2px 0px #000000; /* Ретро-тень */
-  border-radius: 0px !important; /* В CS 1.6 никаких скруглений */
+  border: 2px solid #5a6250;
+  box-shadow: 2px 2px 0px #000000;
+  border-radius: 0px !important;
   background-color: #383d32;
   box-sizing: border-box;
 }
@@ -149,14 +136,28 @@ p1, p2, p3 {
 .image1 { float: left; margin-right: 20px; }
 .image2 { float: right; margin-left: 20px; }
 .image3 { float: left; margin-right: 20px; }
+.Cr1 { float: right; margin-left: 20px; }
+.Cr2 { float: left; margin-right: 20px; }
 
-/* КНОПКИ (Классические пункты меню CS 1.6) */
+
+.crn1 {
+  margin: 0 0 20px auto;
+  float: right; 
+  margin-left: 20px;
+}
+
+.crn2 {
+  margin: 0 auto 20px 0;
+  float: left; 
+  margin-right: 20px;
+}
+
 button {
   font-family: 'Courier Prime', Courier, monospace, sans-serif;
   font-size: 22px;
   text-transform: uppercase;
   background-color: transparent;
-  color: #aeaeae; /* Цвет неактивного пункта меню */
+  color: #aeaeae;
   border: none;
   cursor: pointer;
   padding: 8px 20px;
@@ -165,14 +166,12 @@ button {
   transition: color 0.1s ease, transform 0.1s ease;
 }
 
-/* Наведение на кнопку (Hover эффект как в игре) */
 button:hover {
-  color: #ffffff; /* Текст становится белым */
-  text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.6); /* Легкое свечение */
+  color: #ffffff;
+  text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.6);
 }
 
-/* Клик по кнопке */
 button:active {
-  color: #e5a324; /* Становится золотым при нажатии */
-  transform: scale(0.98); /* Легкий физический отклик */
+  color: #e5a324;
+  transform: scale(0.98);
 }

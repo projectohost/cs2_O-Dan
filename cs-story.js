@@ -1,18 +1,16 @@
 window.addEventListener('DOMContentLoaded', () => {
-  const button = document.getElementById('myButton');
-  const clickSound = document.getElementById('ui_clickrelease'); // ИСПРАВЛЕНО: Переименовано во избежание дублирования
+  const clicksound = document.getElementById('ui_clickrelease');
   const sounds = document.getElementById('valve-intro');
   const logo = document.querySelector('.valve-logo');
   const h1 = document.querySelector('h1');
-  const p = document.querySelector('p');
-  const buttons = document.querySelectorAll('button'); // Теперь это объявление работает корректно
+  const buttons = document.querySelectorAll('button');
 
-  // Указываем точный путь к звуку
+  const contentElements = document.querySelectorAll('p1, p2, p3, p4, .image1, .image2');
+
   if (sounds) {
     sounds.src = 'sounds/valve-intro.mp3'; 
   }
 
-  // 1. Создаем черный экран заставки прямо через JS
   const container = document.createElement('div');
   container.style.position = 'fixed';
   container.style.top = '0'; container.style.left = '0';
@@ -22,12 +20,20 @@ window.addEventListener('DOMContentLoaded', () => {
   container.style.zIndex = '9999';
   document.body.appendChild(container);
 
-  // 2. Изначально полностью скрываем контент сайта на заднем плане
-  if (h1) h1.style.opacity = '0';
-  if (p) p.style.opacity = '0';
-  buttons.forEach(btn => btn.style.opacity = '0');
+  const clickPrompt = document.createElement('div');
+  clickPrompt.innerText = 'Натисніть в будь-якому місці, щоб продовжити...';
+  clickPrompt.style.position = 'absolute';
+  clickPrompt.style.bottom = '40px';
+  clickPrompt.style.color = '#383d32';
+  clickPrompt.style.fontFamily = 'monospace';
+  clickPrompt.style.fontSize = '14px';
+  clickPrompt.style.letterSpacing = '2px';
+  container.appendChild(clickPrompt);
 
-  // 3. Стилизуем ваши буквы VALVE
+  if (h1) h1.style.opacity = '0';
+  buttons.forEach(btn => btn.style.opacity = '0');
+  contentElements.forEach(el => el.style.opacity = '0');
+
   if (logo) {
     container.appendChild(logo);
     logo.style.display = 'none'; 
@@ -37,28 +43,29 @@ window.addEventListener('DOMContentLoaded', () => {
     logo.style.fontSize = '55px';
     logo.style.fontWeight = '900';
     logo.style.padding = '12px 25px 14px 28px';
-    logo.style.letterSpacing = '-2px';
+    logo.style.letterSpacing = '-3px';
     logo.style.whiteSpace = 'nowrap';
     
     const valveE = logo.querySelector('.valve-e');
     if (valveE) {
-      valveE.style.fontSize = '34px';
+      valveE.style.fontSize = '36px';
       valveE.style.display = 'inline-block';
-      valveE.style.marginLeft = '4px';
-      valveE.style.transform = 'translateY(-7px)';
+      valveE.style.marginLeft = '2px';
+      valveE.style.transform = 'translateY(-6px)';
     }
   }
 
-  // Главная функция запуска заставки
+  document.body.style.transition = "background-image 1.2s ease-in-out";
+
   const runIntro = () => {
     if (container.hasAttribute('data-started')) return;
     container.setAttribute('data-started', 'true');
+    clickPrompt.style.display = 'none';
 
-    // Мгновенный показ и плавное проявление логотипа VALVE
     if (logo) {
       logo.style.display = 'inline-flex';
       logo.style.opacity = '0';
-      logo.style.transform = 'scale(0.9)';
+      logo.style.transform = 'scale(0.95)';
       logo.style.transition = 'opacity 2s ease, transform 2s ease';
       setTimeout(() => {
         logo.style.opacity = '1';
@@ -66,18 +73,16 @@ window.addEventListener('DOMContentLoaded', () => {
       }, 50);
     }
     
-    // Мгновенный запуск звука
     if (sounds) {
       sounds.muted = false;
       sounds.volume = 1.0;
       
       sounds.play().catch(err => {
-        console.log("MP3 не подошел, пробуем WAV...");
+        console.log("MP3 не підійшов, пробуєм WAV...");
         sounds.src = 'sounds/valve-intro.wav';
-        sounds.play().catch(e => console.log("Файл не найден"));
+        sounds.play().catch(e => console.log("Файл інтро не знайден"));
       });
 
-      // ИСПРАВЛЕНО: Плавное затухание звука интро (sounds вместо sound) на 6.5 секунде
       setTimeout(() => {
         let fadeOutInterval = setInterval(() => {
           if (sounds.volume > 0.1) {
@@ -89,48 +94,70 @@ window.addEventListener('DOMContentLoaded', () => {
         }, 100);
       }, 8000); 
     }
+
     setTimeout(() => {
-      document.body.style.backgroundImage = "url('images/photobackground.jpg')";
+      document.body.style.backgroundImage = "url('images/photobackground1.jpg')";
       document.body.style.backgroundSize = "cover";
       document.body.style.backgroundRepeat = "no-repeat";
       document.body.style.backgroundPosition = "center";
       document.body.style.backgroundAttachment = "fixed";
-      document.body.style.transition = "background-image 2s ease-in-out";
 
-      // Плавно убираем заставку
       container.style.opacity = '0';
       container.style.visibility = 'hidden';
-      container.style.transition = 'opacity 1s ease, visibility 1s';
+      container.style.transition = 'opacity 1s ease, visibility 1s ease';
       
-      // Проявляем контент сайта
-      if (h1) { h1.style.opacity = '1'; h1.style.transition = 'opacity 2s ease'; }
-      if (p) { p.style.opacity = '1'; p.style.transition = 'opacity 2s ease'; }
-      buttons.forEach(btn => { btn.style.opacity = '1'; btn.style.transition = 'opacity 2s ease'; });
+      if (h1) { h1.style.opacity = '1'; h1.style.transition = 'opacity 1.5s ease'; }
+      contentElements.forEach(el => { el.style.opacity = '1'; el.style.transition = 'opacity 1.5s ease'; });
+      buttons.forEach(btn => { btn.style.opacity = '1'; btn.style.transition = 'opacity 1.5s ease'; });
       document.body.classList.add('intro-done');
+
+      initBackgroundChanger();
     }, 8000);
 
-    // Снимаем слежку за действиями
-    window.removeEventListener('mousemove', runIntro);
-    window.removeEventListener('wheel', runIntro);
     window.removeEventListener('touchstart', runIntro);
     window.removeEventListener('click', runIntro);
     window.removeEventListener('keydown', runIntro);
   };
 
-  // Ждем ЛЮБОГО действия игрока для мгновенного старта
-  window.addEventListener('mousemove', runIntro, { once: true });
-  window.addEventListener('wheel', runIntro, { once: true });
   window.addEventListener('touchstart', runIntro, { once: true });
   window.addEventListener('click', runIntro, { once: true });
   window.addEventListener('keydown', runIntro, { once: true });
 
-  // ИСПРАВЛЕНО: Теперь используется верное имя переменной clickSound
-  if (button && clickSound) {
+  buttons.forEach(button => {
     button.addEventListener('click', () => {
-      clickSound.currentTime = 0; // Возвращает звук в начало, если кликают быстро
-      clickSound.play().catch(error => {
-        console.log("Браузер заблокировал автовоспроизведение:", error);
-      });
+        if (clickSound) {
+            clickSound.currentTime = 0; 
+            clickSound.play().catch(error => {
+                console.log("Браузер заблокував звук кліка:", error);
+            });
+        }
     });
+  });
+
+  function initBackgroundChanger() {
+    const backgroundMap = {
+        'P1': 'images/photobackground.jpg',
+        'P2': 'images/background_valve.jpg',
+        'P3': 'images/background_cs16.jpg',
+        'P4': 'images/background_modern.jpg'
+    };
+
+    const observerOptions = {
+        root: null,
+        threshold: 0.2
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const tagName = entry.target.tagName;
+                if (backgroundMap[tagName]) {
+                    document.body.style.backgroundImage = `url('${backgroundMap[tagName]}')`;
+                }
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('p1, p2, p3, p4').forEach(p => observer.observe(p));
   }
 });
