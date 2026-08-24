@@ -39,7 +39,7 @@ window.addEventListener('DOMContentLoaded', () => {
     logo.style.display = 'none'; 
     logo.style.backgroundColor = '#f74843';
     logo.style.color = '#000000';
-    logo.style.fontFamily = "'Arial Black', 'Impact', sans-serif";
+    logo.style.fontFamily = "Oswald, sans-serif";
     logo.style.fontSize = '55px';
     logo.style.fontWeight = '900';
     logo.style.padding = '12px 25px 14px 28px';
@@ -125,9 +125,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
   buttons.forEach(button => {
     button.addEventListener('click', () => {
-        if (clickSound) {
-            clickSound.currentTime = 0; 
-            clickSound.play().catch(error => {
+        if (clicksound) {
+            clicksound.currentTime = 0; 
+            clicksound.play().catch(error => {
                 console.log("Браузер заблокував звук кліка:", error);
             });
         }
