@@ -62,15 +62,15 @@ h2 {
   color: #ffffff;
 }
 
-p1, p2, p3 {
-  display: block;
-  color: #c4c9be;
-  max-width: 800px;
-  font-size: 25px;
-  line-height: 1.5;
-  margin: 15px auto;
-  text-align: left;
-  padding: 0 20px;
+p1, p2, p3, p4 {
+    display: block;
+    color: #c4c9be;
+    max-width: 800px;
+    font-size: 18px;
+    line-height: 1.5;
+    margin: 15px auto;
+    text-align: left;
+    padding: 0 20px;
 }
 
 .image1, .image2, .image3, .Cr1, .Cr2 {
@@ -122,6 +122,6 @@ button:hover {
 }
 
 button:active {
-  color: #e5a324;
+  color: #363636;
   transform: scale(0.98);
 }
