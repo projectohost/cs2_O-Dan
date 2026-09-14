@@ -90,16 +90,45 @@ header {
     }
 }
 
-h1,
-p1,
-p2,
-p3,
-p4,
 .image1,
 .image2,
 .image3,
 .Cr1,
-.Cr2,
+.Cr2 {
+    width: 25%;
+    height: auto;
+    display: block;
+    border: 2px solid #5a6250;
+    box-shadow: 2px 2px 0px #000000;
+    border-radius: 0 !important;
+    background-color: #383d32;
+    box-sizing: border-box;
+}
+
+.image1 {
+    float: left;
+    margin: 0 20px 20px 0;
+}
+
+.image2 {
+    float: right;
+    margin: 0 0 20px 20px;
+}
+
+.image3 {
+    float: left;
+    margin: 0 20px 20px 0;
+}
+
+.Cr1 {
+    float: right;
+    margin: 0 0 20px 20px;
+}
+
+.Cr2 {
+    float: left;
+    margin: 0 20px 20px 0;
+}
 
 button {
     opacity: 1;
@@ -118,7 +147,7 @@ h1 {
 h2 {
     clear: both;
     text-align: center;
-    color: #6d6d6d;
+    color: #ffffff;
     font-size: 18px;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -181,16 +210,6 @@ p4 {
 }
 
 .image3 {
-    float: left;
-    margin-right: 20px;
-}
-
-.Cr1 {
-    float: right;
-    margin-left: 20px;
-}
-
-.Cr2 {
     float: left;
     margin-right: 20px;
 }

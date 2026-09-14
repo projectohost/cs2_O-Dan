@@ -1,9 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
 
-    // =====================================================
-    // ELEMENTS
-    // =====================================================
-
     const clicksound = document.getElementById('ui_clickrelease');
     const sounds = document.getElementById('valve-intro');
     const logo = document.querySelector('.valve-logo');
@@ -14,11 +10,6 @@ window.addEventListener('DOMContentLoaded', () => {
         'p1, p2, p3, p4, .image1, .image2, .image3, .Cr1, .Cr2'
     );
 
-
-    // =====================================================
-    // SESSION STORAGE
-    // =====================================================
-
     const introPlayed =
         sessionStorage.getItem('cs_intro_played');
 
@@ -27,11 +18,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const savedScroll =
         sessionStorage.getItem('cs_scroll');
-
-
-    // =====================================================
-    // BACKGROUND
-    // =====================================================
 
     const defaultBackground =
         'images/photobackground1.jpg';
@@ -65,17 +51,11 @@ window.addEventListener('DOMContentLoaded', () => {
         document.body.style.backgroundAttachment =
             'fixed';
 
-        // Запоминаем фон
         sessionStorage.setItem(
             'cs_background',
             image
         );
     }
-
-
-    // =====================================================
-    // CLICK SOUND
-    // =====================================================
 
     function playClickSound() {
 
@@ -105,11 +85,6 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-
-    // =====================================================
-    // BUTTON SOUND
-    // =====================================================
-
     buttons.forEach(button => {
 
         button.addEventListener('click', () => {
@@ -120,14 +95,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
     });
 
-
-    // =====================================================
-    // RESTORE SAVED PAGE
-    // =====================================================
-
     if (introPlayed === 'true') {
 
-        // Останавливаем Intro
         if (sounds) {
 
             sounds.pause();
@@ -136,7 +105,6 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
 
-        // Восстанавливаем фон
         if (savedBackground) {
 
             setBackground(savedBackground);
@@ -148,7 +116,6 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
 
-        // Показываем контент
         if (h1) {
 
             h1.style.opacity = '1';
@@ -168,19 +135,14 @@ window.addEventListener('DOMContentLoaded', () => {
         });
 
 
-        // Не даём элементам плавно прыгать
         document.body.classList.add(
             'intro-done'
         );
 
 
-        // Запускаем смену фона
         initBackgroundChanger();
 
 
-        // =================================================
-        // ВОССТАНОВЛЕНИЕ SCROLL
-        // =================================================
 
         if (savedScroll !== null) {
 
@@ -203,22 +165,12 @@ window.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-
-    // =====================================================
-    // FIRST VISIT — INTRO
-    // =====================================================
-
     if (sounds) {
 
         sounds.src =
             'sounds/valve-intro.mp3';
 
     }
-
-
-    // =====================================================
-    // INTRO CONTAINER
-    // =====================================================
 
     const container =
         document.createElement('div');
@@ -241,11 +193,6 @@ window.addEventListener('DOMContentLoaded', () => {
     document.body.appendChild(
         container
     );
-
-
-    // =====================================================
-    // CLICK PROMPT
-    // =====================================================
 
     const clickPrompt =
         document.createElement('div');
@@ -275,11 +222,6 @@ window.addEventListener('DOMContentLoaded', () => {
         clickPrompt
     );
 
-
-    // =====================================================
-    // HIDE CONTENT
-    // =====================================================
-
     if (h1) {
 
         h1.style.opacity = '0';
@@ -297,11 +239,6 @@ window.addEventListener('DOMContentLoaded', () => {
         el.style.opacity = '0';
 
     });
-
-
-    // =====================================================
-    // VALVE LOGO
-    // =====================================================
 
     if (logo) {
 
@@ -366,10 +303,6 @@ window.addEventListener('DOMContentLoaded', () => {
         'background-image 1.2s ease-in-out';
 
 
-    // =====================================================
-    // RUN INTRO
-    // =====================================================
-
     const runIntro = () => {
 
         if (
@@ -382,14 +315,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
         }
 
-
         container.setAttribute(
             'data-started',
             'true'
         );
 
 
-        // Запоминаем Intro
         sessionStorage.setItem(
             'cs_intro_played',
             'true'
@@ -398,11 +329,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
         clickPrompt.style.display =
             'none';
-
-
-        // =================================================
-        // SHOW LOGO
-        // =================================================
 
         if (logo) {
 
@@ -431,11 +357,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
         }
 
-
-        // =================================================
-        // INTRO SOUND
-        // =================================================
-
         if (sounds) {
 
             sounds.muted = false;
@@ -462,11 +383,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 });
 
             });
-
-
-            // =================================================
-            // FADE OUT
-            // =================================================
 
             setTimeout(() => {
 
@@ -495,11 +411,6 @@ window.addEventListener('DOMContentLoaded', () => {
             }, 8000);
 
         }
-
-
-        // =================================================
-        // END INTRO
-        // =================================================
 
         setTimeout(() => {
 
@@ -562,7 +473,6 @@ window.addEventListener('DOMContentLoaded', () => {
         }, 8000);
 
 
-        // Удаляем обработчики
         window.removeEventListener(
             'touchstart',
             runIntro
@@ -579,11 +489,6 @@ window.addEventListener('DOMContentLoaded', () => {
         );
 
     };
-
-
-    // =====================================================
-    // START INTRO ON USER ACTION
-    // =====================================================
 
     window.addEventListener(
         'touchstart',
@@ -602,11 +507,6 @@ window.addEventListener('DOMContentLoaded', () => {
         runIntro,
         { once: true }
     );
-
-
-    // =====================================================
-    // BACKGROUND CHANGER
-    // =====================================================
 
     function initBackgroundChanger() {
 
@@ -667,11 +567,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
     }
 
-
-    // =====================================================
-    // SAVE SCROLL POSITION
-    // =====================================================
-
     let scrollTimeout;
 
 
@@ -696,11 +591,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
         }
     );
-
-
-    // =====================================================
-    // SAVE BEFORE LEAVING
-    // =====================================================
 
     window.addEventListener(
         'beforeunload',
