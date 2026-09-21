@@ -23,18 +23,26 @@ window.addEventListener('DOMContentLoaded', () => {
         'images/photobackground1.jpg';
 
     const backgroundMap = {
-        'P1': 'images/photobackground.jpg',
-        'P2': 'images/background_valve.jpg',
-        'P3': 'images/background_cs16.jpg',
-        'P4': 'images/background_modern.jpg'
-    };
 
+        'P1': 'images/photobackground.jpg',
+
+        'P2': 'images/background_valve.jpg',
+
+        'P3': 'images/background_cs16.jpg',
+
+        'P4': 'images/background_modern.jpg'
+
+    };
 
     function setBackground(image) {
 
         if (!image) {
-            image = defaultBackground;
+
+            image =
+                defaultBackground;
+
         }
+
 
         document.body.style.backgroundImage =
             `url('${image}')`;
@@ -51,25 +59,37 @@ window.addEventListener('DOMContentLoaded', () => {
         document.body.style.backgroundAttachment =
             'fixed';
 
+
         sessionStorage.setItem(
-            'cs_background',
+            'photobackground1',
             image
         );
+
     }
 
     function playClickSound() {
 
         if (!clicksound) {
+
             console.log(
                 'Не найден audio #ui_clickrelease'
             );
+
             return;
+
         }
 
-        clicksound.currentTime = 0;
-        clicksound.volume = 1.0;
 
-        const promise = clicksound.play();
+        clicksound.currentTime =
+            0;
+
+        clicksound.volume =
+            1.0;
+
+
+        const promise =
+            clicksound.play();
+
 
         if (promise !== undefined) {
 
@@ -83,66 +103,137 @@ window.addEventListener('DOMContentLoaded', () => {
             });
 
         }
+
     }
 
     buttons.forEach(button => {
 
-        button.addEventListener('click', () => {
-
-            playClickSound();
-
-        });
+        button.addEventListener(
+            'click',
+            playClickSound
+        );
 
     });
 
+    function initBackgroundChanger() {
+
+        const observerOptions = {
+
+            root: null,
+
+            threshold: 0.2
+
+        };
+
+
+        const observer =
+            new IntersectionObserver(
+
+                (entries) => {
+
+                    entries.forEach(entry => {
+
+                        if (
+                            !entry.isIntersecting
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        const tagName =
+                            entry.target.tagName;
+
+
+                        if (
+                            backgroundMap[tagName]
+                        ) {
+
+                            setBackground(
+                                backgroundMap[tagName]
+                            );
+
+                        }
+
+                    });
+
+                },
+
+                observerOptions
+
+            );
+
+        document
+            .querySelectorAll(
+                'p1, p2, p3, p4'
+            )
+            .forEach(p => {
+
+                observer.observe(p);
+
+            });
+
+    }
+
     if (introPlayed === 'true') {
+
+        if (logo) {
+
+            logo.remove();
+
+        }
 
         if (sounds) {
 
             sounds.pause();
-            sounds.currentTime = 0;
+
+            sounds.currentTime =
+                0;
 
         }
 
-
         if (savedBackground) {
 
-            setBackground(savedBackground);
+            setBackground(
+                savedBackground
+            );
 
         } else {
 
-            setBackground(defaultBackground);
+            setBackground(
+                defaultBackground
+            );
 
         }
 
 
         if (h1) {
 
-            h1.style.opacity = '1';
+            h1.style.opacity =
+                '1';
 
         }
 
         contentElements.forEach(el => {
 
-            el.style.opacity = '1';
+            el.style.opacity =
+                '1';
 
         });
 
         buttons.forEach(btn => {
 
-            btn.style.opacity = '1';
+            btn.style.opacity =
+                '1';
 
         });
-
 
         document.body.classList.add(
             'intro-done'
         );
 
-
         initBackgroundChanger();
-
-
 
         if (savedScroll !== null) {
 
@@ -161,8 +252,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
         }
 
-
         return;
+
     }
 
     if (sounds) {
@@ -175,20 +266,37 @@ window.addEventListener('DOMContentLoaded', () => {
     const container =
         document.createElement('div');
 
-    container.style.position = 'fixed';
-    container.style.top = '0';
-    container.style.left = '0';
-    container.style.width = '100vw';
-    container.style.height = '100vh';
+
+    container.style.position =
+        'fixed';
+
+    container.style.top =
+        '0';
+
+    container.style.left =
+        '0';
+
+    container.style.width =
+        '100vw';
+
+    container.style.height =
+        '100vh';
 
     container.style.backgroundColor =
         '#000000';
 
-    container.style.display = 'flex';
-    container.style.alignItems = 'center';
-    container.style.justifyContent = 'center';
+    container.style.display =
+        'flex';
 
-    container.style.zIndex = '9999';
+    container.style.alignItems =
+        'center';
+
+    container.style.justifyContent =
+        'center';
+
+    container.style.zIndex =
+        '9999';
+
 
     document.body.appendChild(
         container
@@ -197,8 +305,10 @@ window.addEventListener('DOMContentLoaded', () => {
     const clickPrompt =
         document.createElement('div');
 
+
     clickPrompt.innerText =
         'Натисніть в будь-якому місці, щоб продовжити...';
+
 
     clickPrompt.style.position =
         'absolute';
@@ -218,25 +328,31 @@ window.addEventListener('DOMContentLoaded', () => {
     clickPrompt.style.letterSpacing =
         '2px';
 
+
     container.appendChild(
         clickPrompt
     );
 
     if (h1) {
 
-        h1.style.opacity = '0';
+        h1.style.opacity =
+            '0';
 
     }
 
+
     buttons.forEach(btn => {
 
-        btn.style.opacity = '0';
+        btn.style.opacity =
+            '0';
 
     });
 
+
     contentElements.forEach(el => {
 
-        el.style.opacity = '0';
+        el.style.opacity =
+            '0';
 
     });
 
@@ -245,6 +361,7 @@ window.addEventListener('DOMContentLoaded', () => {
         container.appendChild(
             logo
         );
+
 
         logo.style.display =
             'none';
@@ -298,10 +415,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
     }
 
-
     document.body.style.transition =
         'background-image 1.2s ease-in-out';
-
 
     const runIntro = () => {
 
@@ -320,12 +435,10 @@ window.addEventListener('DOMContentLoaded', () => {
             'true'
         );
 
-
         sessionStorage.setItem(
             'cs_intro_played',
             'true'
         );
-
 
         clickPrompt.style.display =
             'none';
@@ -359,8 +472,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
         if (sounds) {
 
-            sounds.muted = false;
-            sounds.volume = 1.0;
+            sounds.muted =
+                false;
+
+            sounds.volume =
+                1.0;
 
 
             sounds.play().catch(() => {
@@ -389,6 +505,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 let fadeOutInterval =
                     setInterval(() => {
 
+
                         if (
                             sounds.volume > 0.1
                         ) {
@@ -399,6 +516,9 @@ window.addEventListener('DOMContentLoaded', () => {
                         } else {
 
                             sounds.pause();
+
+                            sounds.currentTime =
+                                0;
 
                             clearInterval(
                                 fadeOutInterval
@@ -418,7 +538,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 defaultBackground
             );
 
-
             container.style.transition =
                 'opacity 1s ease, visibility 1s ease';
 
@@ -427,7 +546,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
             container.style.visibility =
                 'hidden';
-
 
             if (h1) {
 
@@ -439,7 +557,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
             }
 
-
             contentElements.forEach(el => {
 
                 el.style.opacity =
@@ -449,7 +566,6 @@ window.addEventListener('DOMContentLoaded', () => {
                     'opacity 1.5s ease';
 
             });
-
 
             buttons.forEach(btn => {
 
@@ -461,17 +577,33 @@ window.addEventListener('DOMContentLoaded', () => {
 
             });
 
-
             document.body.classList.add(
                 'intro-done'
             );
 
-
             initBackgroundChanger();
+
+            setTimeout(() => {
+
+
+                if (logo) {
+
+                    logo.remove();
+
+                }
+
+
+                if (container) {
+
+                    container.remove();
+
+                }
+
+
+            }, 1000);
 
 
         }, 8000);
-
 
         window.removeEventListener(
             'touchstart',
@@ -493,79 +625,28 @@ window.addEventListener('DOMContentLoaded', () => {
     window.addEventListener(
         'touchstart',
         runIntro,
-        { once: true }
+        {
+            once: true
+        }
     );
+
 
     window.addEventListener(
         'click',
         runIntro,
-        { once: true }
+        {
+            once: true
+        }
     );
+
 
     window.addEventListener(
         'keydown',
         runIntro,
-        { once: true }
+        {
+            once: true
+        }
     );
-
-    function initBackgroundChanger() {
-
-        const observerOptions = {
-
-            root: null,
-            threshold: 0.2
-
-        };
-
-
-        const observer =
-            new IntersectionObserver(
-                (entries) => {
-
-                    entries.forEach(entry => {
-
-                        if (
-                            entry.isIntersecting
-                        ) {
-
-                            const tagName =
-                                entry.target.tagName;
-
-
-                            if (
-                                backgroundMap[tagName]
-                            ) {
-
-                                const newBackground =
-                                    backgroundMap[tagName];
-
-
-                                setBackground(
-                                    newBackground
-                                );
-
-                            }
-
-                        }
-
-                    });
-
-                },
-                observerOptions
-            );
-
-
-        document
-            .querySelectorAll(
-                'p1, p2, p3, p4'
-            )
-            .forEach(p => {
-
-                observer.observe(p);
-
-            });
-
-    }
 
     let scrollTimeout;
 
@@ -573,6 +654,7 @@ window.addEventListener('DOMContentLoaded', () => {
     window.addEventListener(
         'scroll',
         () => {
+
 
             clearTimeout(
                 scrollTimeout

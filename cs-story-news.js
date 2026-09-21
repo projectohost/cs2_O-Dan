@@ -1,61 +1,245 @@
+const clicksound = document.getElementById('ui_clickrelease');
 const spinner = document.getElementById('cs-spinner');
 const hudDisplay = document.getElementById('cs-hud-display');
-const startSound = document.getElementById('start-sound');
+const sounds = document.getElementById('start-sound');
 
-// Находим строго те аудиофайлы, которые вы прописали в самом HTML
-const availableSounds = document.querySelectorAll('.random-sound');
+// Все кнопки на странице
+const buttons = document.querySelectorAll('button');
 
-let isSpinning = false; 
-let currentAngle = 0;   
+// Находим строго те аудиофайлы,
+// которые прописаны в HTML
+const availableSounds =
+    document.querySelectorAll('.random-sound');
+
+
+let isSpinning = false;
+let currentAngle = 0;
+
+
+// ========================================
+// РАДАР
+// ========================================
 
 spinner.addEventListener('click', () => {
-    // Если радар уже сканирует, повторно нажать нельзя до полной остановки
-    if (isSpinning) return; 
-    
+
+    // Если радар уже сканирует,
+    // повторно нажать нельзя
+    if (isSpinning) return;
+
+
     isSpinning = true;
-    hudDisplay.innerText = 'SCANNING...';
-    hudDisplay.style.color = '#33ff33'; // Возвращаем стандартный зеленый цвет HUD
 
-    // Проигрываем стартовый клик
-    startSound.currentTime = 0;
-    startSound.play(); 
 
-    // Задаем случайную начальную скорость кручения радара
-    let speed = Math.random() * 20 + 35; 
-    const friction = 0.96; // Эффект плавного торможения
+    // Меняем текст HUD
+    hudDisplay.innerText =
+        'SCANNING...';
 
-    function animate() {
-        currentAngle += speed;
-        spinner.style.transform = `rotate(${currentAngle}deg)`;
-        
-        speed *= friction; // Постепенно замедляем вращение
 
-        if (speed > 0.1) {
-            requestAnimationFrame(animate);
-        } else {
-            isSpinning = false;
-            // Радар остановился — JS определяет, какой тег запустить и какой текст показать
-            playExistingHtmlSound();
-        }
+    // Возвращаем зелёный цвет
+    hudDisplay.style.color =
+        '#33ff33';
+
+
+    // ========================================
+    // СТАРТОВЫЙ ЗВУК
+    // ========================================
+
+    if (sounds) {
+
+        sounds.currentTime =
+            0;
+
+        sounds.play().catch(error => {
+
+            console.log(
+                'Ошибка стартового звука:',
+                error
+            );
+
+        });
+
     }
 
+
+    // ========================================
+    // СКОРОСТЬ РАДАРА
+    // ========================================
+
+    let speed =
+        Math.random() * 20 + 35;
+
+
+    const friction =
+        0.96;
+
+
+    // ========================================
+    // АНИМАЦИЯ
+    // ========================================
+
+    function animate() {
+
+        currentAngle += speed;
+
+
+        spinner.style.transform =
+            `rotate(${currentAngle}deg)`;
+
+
+        // Постепенное торможение
+        speed *= friction;
+
+
+        if (speed > 0.1) {
+
+            requestAnimationFrame(
+                animate
+            );
+
+        } else {
+
+            // Радар остановился
+            isSpinning = false;
+
+
+            // Запускаем случайный звук
+            playExistingHtmlSound();
+
+        }
+
+    }
+
+
     animate();
+
 });
 
+
+// ========================================
+// СЛУЧАЙНЫЙ HTML SOUND
+// ========================================
+
 function playExistingHtmlSound() {
-    if (availableSounds.length === 0) return;
 
-    // 1. Выбираем случайный аудио-тег ИЗ ТЕХ, ЧТО УЖЕ ЕСТЬ в вашем HTML
-    const randomIndex = Math.floor(Math.random() * availableSounds.length);
-    const selectedAudio = availableSounds[randomIndex];
+    // Если аудио нет
+    if (availableSounds.length === 0) {
 
-    // 2. Запускаем воспроизведение именно этого HTML-тега
-    selectedAudio.currentTime = 0;
-    selectedAudio.play();
+        console.log(
+            'Не найдено ни одного .random-sound'
+        );
 
-    // 3. JS считывает привязанный к тегу текст из атрибута data-text
-    const linkedText = selectedAudio.getAttribute('data-text');
+        return;
 
-    // 4. Показываем считанный текст на зеленом табло радара
-    hudDisplay.innerText = linkedText;
+    }
+
+
+    // ========================================
+    // ВЫБИРАЕМ СЛУЧАЙНЫЙ AUDIO
+    // ========================================
+
+    const randomIndex =
+        Math.floor(
+            Math.random() *
+            availableSounds.length
+        );
+
+
+    const selectedAudio =
+        availableSounds[randomIndex];
+
+
+    // ========================================
+    // ПРОИГРЫВАЕМ
+    // ========================================
+
+    selectedAudio.currentTime =
+        0;
+
+
+    selectedAudio.play().catch(error => {
+
+        console.log(
+            'Ошибка воспроизведения random sound:',
+            error
+        );
+
+    });
+
+
+    // ========================================
+    // ПОЛУЧАЕМ TEXT
+    // ========================================
+
+    const linkedText =
+        selectedAudio.getAttribute(
+            'data-text'
+        );
+
+
+    // ========================================
+    // ПОКАЗЫВАЕМ TEXT НА HUD
+    // ========================================
+
+    hudDisplay.innerText =
+        linkedText || '';
+
 }
+
+
+// ========================================
+// ЗВУК КНОПОК
+// ========================================
+
+function playClickSound() {
+
+    if (!clicksound) {
+
+        console.log(
+            'Не найден audio #ui_clickrelease'
+        );
+
+        return;
+
+    }
+
+
+    clicksound.currentTime =
+        0;
+
+
+    clicksound.volume =
+        1.0;
+
+
+    const promise =
+        clicksound.play();
+
+
+    if (promise !== undefined) {
+
+        promise.catch(error => {
+
+            console.log(
+                'Помилка звуку кнопки:',
+                error
+            );
+
+        });
+
+    }
+
+}
+
+
+// ========================================
+// ПОДКЛЮЧАЕМ ЗВУК КО ВСЕМ BUTTON
+// ========================================
+
+buttons.forEach(button => {
+
+    button.addEventListener(
+        'click',
+        playClickSound
+    );
+
+});

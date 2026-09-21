@@ -132,10 +132,10 @@ button:active {
     align-items: center;
     justify-content: center;
     padding: 30px;
-    background-color: rgba(24, 34, 21, 0.95); /* Темно-зеленый фон меню */
-    border: 5px inset #4a6142; /* Олдскульная рамка */
+    background-color: rgba(24, 34, 21, 0.95);
+    border: 5px inset #4a6142;
     border-radius: 45px;
-    max-width: 280px; /* Сделали чуть шире для текста */
+    max-width: 280px;
     margin: 30px auto;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
 }
@@ -168,13 +168,13 @@ button:active {
 
 #cs-hud-display {
     margin-top: 20px;
-    color: #33ff33; /* Ярко-зеленый HUD */
-    font-family: 'Courier New', Courier, monospace; /* Пиксельный шрифт */
+    color: #33ff33;
+    font-family: 'Courier New', Courier, monospace;
     font-size: 14px;
     font-weight: bold;
-    text-transform: uppercase; /* Все буквы заглавные */
+    text-transform: uppercase;
     text-align: center;
     letter-spacing: 1px;
-    min-height: 20px; /* Чтобы рамка не прыгала при пустом тексте */
+    min-height: 20px;
     text-shadow: 0 0 5px rgba(51, 255, 51, 0.6);
 }
