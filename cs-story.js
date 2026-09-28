@@ -1,5 +1,4 @@
 window.addEventListener('DOMContentLoaded', () => {
-
     const clicksound = document.getElementById('ui_clickrelease');
     const sounds = document.getElementById('valve-intro');
     const logo = document.querySelector('.valve-logo');

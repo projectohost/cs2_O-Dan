@@ -184,40 +184,6 @@ p4 {
     box-sizing: border-box;
 }
 
-.image1,
-.image2,
-.image3,
-.Cr1,
-.Cr2 {
-    width: 25%;
-    height: auto;
-    display: block;
-    border: 2px solid #5a6250;
-    box-shadow: 2px 2px 0px #000000;
-    border-radius: 0 !important;
-    background-color: #383d32;
-    box-sizing: border-box;
-}
-
-.image1 {
-    float: left;
-    margin-right: 20px;
-}
-
-.image2 {
-    float: right;
-    margin-left: 20px;
-}
-
-.image3 {
-    float: left;
-    margin-right: 20px;
-}
-
-h2 {
-    clear: both;
-}
-
 .crn1 {
     margin: 0 0 20px auto;
     float: right;
@@ -231,7 +197,7 @@ h2 {
 }
 
 button {
-    font-family:'Courier Prime', Courier, monospace, sans-serif;
+    font-family: 'Courier Prime', Courier, monospace, sans-serif;
     font-size: 22px;
     text-transform: uppercase;
     background-color: transparent;
@@ -264,8 +230,6 @@ body.intro-done .image1,
 body.intro-done .image2,
 body.intro-done .image3,
 body.intro-done .Cr1,
-body.intro-done .Cr2,
-
-body.intro-done button {
-opacity: 1;
+body.intro-done .Cr2,body.intro-done button {
+    opacity: 1;
 }
